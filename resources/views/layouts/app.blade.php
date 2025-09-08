@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProgrammerPemula - Jasa Website & Aplikasi</title>
     
-    {{-- 
-      BAGIAN PENTING YANG DIUBAH: 
-      Memuat semua CSS dan JS utama melalui Vite. 
-      Ini menggantikan <link rel="stylesheet" ...> yang lama.
-      Pastikan Anda sudah membuat file resources/css/app.css dan meng-import
-      file style-global.css dan style-popup.css di dalamnya.
-    --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/style-global.css') }}">
     
-    {{-- Ini tetap dipertahankan untuk CSS yang spesifik per halaman --}}
+    <link rel="stylesheet" href="{{ asset('css/style-popup.css') }}">
+    
     @stack('styles')
 </head>
 <body>
@@ -22,7 +16,6 @@
     <div id="preloader">
         <div class="spinner"></div>
     </div>
-    
     @include('partials.navbar')
 
     <main>
@@ -33,7 +26,7 @@
 
     @include('partials.popup-form')
 
-    @include('partials.popup-iklan')
+    @include('partials.popup-iklan') {{-- BARU: Menambahkan pop-up iklan --}}
     
     <a href="https://wa.me/6281292690095?text=Halo%2C%20saya%20ingin%20bertanya.%0A%0ANama%3A%20%0AMau%20Joki%20Apa%3A%20%0ARequest%20Lain%3A%20" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat di WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -41,39 +34,33 @@
         </svg>
     </a>
 
-    {{-- 
-      JavaScript inline di sini tidak masalah. 
-      Namun, praktik terbaiknya adalah memindahkan semua logika ini ke dalam file 
-      resources/js/app.js dan hanya memanggil fungsi inisialisasi dari sini.
-    --}}
     <script>
-    console.log('🚀 App script started');
-    
-    // Variabel global
+    // --- SCRIPT UTAMA UNTUK MENGELOLA SEMUA FUNGSI ---
+    // Deklarasikan variabel yang digunakan di beberapa tempat di luar scope event listener
     const bodyElement = document.body;
     
-    // PRELOADER
+    // --- SCRIPT UNTUK PRELOADER ---
     const preloader = document.getElementById('preloader');
     if (preloader) {
         window.addEventListener('load', () => {
             preloader.classList.add('preloader-hidden');
+            // Hapus elemen dari DOM setelah transisi selesai agar tidak mengganggu
             setTimeout(() => {
                 preloader.style.display = 'none';
                 
-                // Tampilkan iklan popup setelah preloader
+                // BARU: Tampilkan pop-up iklan setelah preloader hilang
                 const iklanPopup = document.getElementById('iklanPopup');
                 if (iklanPopup) {
                     iklanPopup.classList.add('active');
                     bodyElement.classList.add('body-no-scroll');
                 }
-            }, 750);
+            }, 750); // Sesuaikan dengan durasi transisi di CSS
         });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('📱 DOM loaded');
         
-        // NAVBAR HAMBURGER
+        // --- SCRIPT UNTUK NAVBAR HAMBURGER ---
         const navbar = document.querySelector('.navbar');
         const navbarToggler = document.querySelector('.navbar-toggler');
         const navLinks = document.querySelectorAll('.nav-link');
@@ -92,7 +79,7 @@
             });
         });
 
-        // CAROUSEL
+        // --- SCRIPT UNTUK CAROUSEL BAWAAN ---
         const carousel = document.querySelector('.carousel');
         if (carousel) {
             const inner = carousel.querySelector('.carousel-inner');
@@ -105,7 +92,6 @@
             const totalItems = items.length;
 
             if (totalItems > 1) { 
-                // Create indicators
                 for (let i = 0; i < totalItems; i++) {
                     const dot = document.createElement('div');
                     dot.classList.add('indicator-dot');
@@ -144,43 +130,29 @@
                     }, 5000);
                 }
 
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
-                        updateCarousel();
-                        resetAutoPlay();
-                    });
-                }
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+                    updateCarousel();
+                    resetAutoPlay();
+                });
 
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
-                        updateCarousel();
-                        resetAutoPlay();
-                    });
-                }
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+                    updateCarousel();
+                    resetAutoPlay();
+                });
             }
         }
         
-        // POPUP CONTROLS
+        // --- SCRIPT UNTUK POPUP FORM & POPUP SUKSES ---
         const popupOverlay = document.getElementById('popupForm');
         const openPopupBtn = document.getElementById('btnPesanJasa');
         const closePopupBtn = document.getElementById('closePopupBtn');
-        const successPopup = document.getElementById('successPopup');
-        const closeSuccessPopupBtn = document.getElementById('closeSuccessPopupBtn');
-        
-        console.log('🎯 Popup elements found:', {
-            popupOverlay: !!popupOverlay,
-            openPopupBtn: !!openPopupBtn,
-            closePopupBtn: !!closePopupBtn,
-            successPopup: !!successPopup
-        });
         
         function openPopup() {
             if(popupOverlay) {
                 popupOverlay.classList.add('active');
                 bodyElement.classList.add('body-no-scroll');
-                console.log('✅ Popup opened');
             }
         }
 
@@ -188,20 +160,12 @@
             if(popupOverlay) {
                 popupOverlay.classList.remove('active');
                 bodyElement.classList.remove('body-no-scroll');
-                console.log('❌ Popup closed');
             }
         }
 
-        // Event listeners untuk popup
-        if (openPopupBtn) {
+        if (popupOverlay && openPopupBtn && closePopupBtn) {
             openPopupBtn.addEventListener('click', openPopup);
-        }
-        
-        if (closePopupBtn) {
             closePopupBtn.addEventListener('click', closePopup);
-        }
-        
-        if (popupOverlay) {
             popupOverlay.addEventListener('click', (event) => {
                 if (event.target === popupOverlay) {
                     closePopup();
@@ -209,45 +173,91 @@
             });
         }
 
-        // Success popup controls
-        if (closeSuccessPopupBtn && successPopup) {
-            closeSuccessPopupBtn.addEventListener('click', function() {
-                successPopup.classList.remove('active');
-                bodyElement.classList.remove('body-no-scroll');
-                console.log('✅ Success popup closed');
-            });
-            
-            successPopup.addEventListener('click', function(event) {
-                if (event.target === successPopup) {
-                    successPopup.classList.remove('active');
-                    bodyElement.classList.remove('body-no-scroll');
+        // --- SCRIPT UNTUK CUSTOM FILE INPUT ---
+        const fileInput = document.getElementById('file_upload');
+        const fileNameDisplay = document.getElementById('file-name-display');
+
+        if (fileInput && fileNameDisplay) {
+            fileInput.addEventListener('change', function(event) {
+                const files = event.target.files;
+                if (files.length > 0) {
+                    fileNameDisplay.textContent = files[0].name;
+                } else {
+                    fileNameDisplay.textContent = 'Belum ada file dipilih.';
                 }
             });
         }
+        
+        // --- SCRIPT UNTUK MENGIRIM FORM KE WHATSAPP & POPUP SUKSES ---
+        const orderForm = document.getElementById('whatsappOrderForm');
+        const successPopup = document.getElementById('successPopup');
+        const closeSuccessPopupBtn = document.getElementById('closeSuccessPopupBtn');
 
-        // IKLAN POPUP CONTROLS
+        if(orderForm && successPopup) {
+            orderForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Mencegah form melakukan submit standar
+
+                // 1. Ambil semua data dari form
+                const nama = document.getElementById('nama').value;
+                const noHp = document.getElementById('whatsapp').value;
+                const detail = document.getElementById('detail').value;
+                const designLink = document.getElementById('design_link').value;
+                const fileUpload = document.getElementById('file_upload').files;
+
+                // 2. Format pesan untuk WhatsApp
+                let pesanWhatsApp = `Halo, saya ingin memesan jasa.\n\n`;
+                pesanWhatsApp += `*Nama Lengkap:* ${nama}\n`;
+                pesanWhatsApp += `*No. WhatsApp:* ${noHp}\n`;
+                pesanWhatsApp += `*Detail Project:*\n${detail}\n\n`;
+                
+                // Tambahkan link desain jika diisi
+                if (designLink) {
+                    pesanWhatsApp += `*Link Desain:* ${designLink}\n`;
+                }
+
+                // Beri catatan jika ada file yang diunggah
+                if (fileUpload.length > 0) {
+                    pesanWhatsApp += `*File Terlampir:* ${fileUpload[0].name} (Akan dikirim manual via chat WhatsApp).\n`;
+                }
+                
+                // 3. Buat URL WhatsApp
+                const nomorWhatsApp = '6281292690095'; // Ganti 08 menjadi 62
+                const urlWhatsApp = `https://wa.me/${nomorWhatsApp}?text=${encodeURIComponent(pesanWhatsApp)}`;
+
+                // 4. Buka WhatsApp di tab baru
+                window.open(urlWhatsApp, '_blank');
+                
+                // 5. Tutup form pemesanan dan tampilkan popup sukses
+                closePopup();
+                successPopup.classList.add('active');
+                bodyElement.classList.add('body-no-scroll'); // Tetap kunci scroll
+
+                // Reset form setelah berhasil
+                orderForm.reset();
+                fileNameDisplay.textContent = 'Belum ada file dipilih.';
+            });
+        }
+
+        if(closeSuccessPopupBtn && successPopup) {
+            // Event listener untuk menutup popup sukses
+            closeSuccessPopupBtn.addEventListener('click', function() {
+                successPopup.classList.remove('active');
+                bodyElement.classList.remove('body-no-scroll'); // Buka kembali scroll
+            });
+        }
+
+        // BARU: SCRIPT UNTUK POPUP IKLAN
         const iklanPopup = document.getElementById('iklanPopup');
         const closeIklanPopupBtn = document.getElementById('closeIklanPopupBtn');
-        
         if(iklanPopup && closeIklanPopupBtn) {
             closeIklanPopupBtn.addEventListener('click', function() {
                 iklanPopup.classList.remove('active');
                 bodyElement.classList.remove('body-no-scroll');
             });
-            
-            iklanPopup.addEventListener('click', function(event) {
-                if (event.target === iklanPopup) {
-                    iklanPopup.classList.remove('active');
-                    bodyElement.classList.remove('body-no-scroll');
-                }
-            });
         }
-        
-        console.log('✅ All scripts loaded successfully!');
     });
     </script>
     
-    {{-- Ini tetap dipertahankan untuk script yang spesifik per halaman --}}
     @stack('scripts')
 
 </body>

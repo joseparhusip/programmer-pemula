@@ -16,7 +16,7 @@
     --peach-pink: #FFD4C4;
     --text-dark: #2c3e50;
     --text-light: #ffffff;
-    --navbar-height: 80px; /* Variabel untuk tinggi navbar */
+    --navbar-height: 80px;
 }
 
 /* === RESET & GLOBAL STYLES === */
@@ -34,11 +34,12 @@ body {
     background-color: #fdfdfd;
     color: var(--text-dark);
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: var(--navbar-height); /* Jarak scroll dari atas sebesar tinggi navbar */
+    scroll-padding-top: var(--navbar-height);
 }
 
 a {
@@ -64,10 +65,15 @@ img {
 }
 
 .btn {
+    display: inline-block;
     padding: 0.8rem 1.8rem;
+    border: none;
     border-radius: 50px;
     font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .btn-primary {
@@ -90,7 +96,7 @@ img {
     width: 100%;
     height: 100%;
     background-color: var(--text-dark);
-    z-index: 9999;
+    z-index: 10000; /* Lebih tinggi dari popup */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,8 +111,8 @@ img {
 .spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.2); /* Warna dasar lingkaran */
-    border-top-color: var(--peach-medium); /* Warna bagian yang berputar */
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--peach-medium);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -117,11 +123,11 @@ img {
     }
 }
 
-
 /* === NAVBAR STYLING === */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
     border-bottom: 1px solid #eee;
     padding: 0 15px;
     height: var(--navbar-height);
@@ -143,7 +149,7 @@ img {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--peach-dark);
-    margin-left: -15px; /* <-- PERUBAHAN DI SINI */
+    margin-left: -15px;
 }
 
 .navbar-nav {
@@ -156,6 +162,7 @@ img {
     font-weight: 500;
     position: relative;
     padding: 5px 0;
+    color: var(--text-dark);
 }
 
 .nav-link::after {
@@ -174,11 +181,12 @@ img {
 }
 
 .navbar-toggler {
-    display: none; /* Sembunyikan di desktop */
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 1001; /* Pastikan di atas menu mobile */
+    z-index: 1001;
+    padding: 5px;
 }
 
 .toggler-icon {
@@ -277,25 +285,24 @@ img {
 /* === RESPONSIVE NAVBAR (TABLET & MOBILE) === */
 @media (max-width: 992px) {
     .navbar .btn {
-        display: none; /* Sembunyikan tombol "Pesan Jasa" */
+        display: none;
     }
 
     .navbar-toggler {
-        display: block; /* Tampilkan hamburger */
+        display: block;
     }
 
-    /* KODE BARU UNTUK DROPDOWN MENU */
     .navbar-nav {
         position: absolute;
-        top: var(--navbar-height); /* Mulai tepat di bawah navbar */
+        top: var(--navbar-height);
         left: 0;
         width: 100%;
         background-color: var(--peach-light);
         flex-direction: column;
         align-items: center;
-        gap: 0; /* Reset gap untuk styling link */
+        gap: 0;
         padding: 0.5rem 0;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
 
@@ -315,8 +322,8 @@ img {
 
     .nav-link {
         color: var(--text-dark);
-        font-size: 1.1rem; /* Ukuran font disesuaikan untuk dropdown */
-        padding: 1rem 1.5rem; /* Padding agar area klik lebih luas */
+        font-size: 1.1rem;
+        padding: 1rem 1.5rem;
         width: 100%;
         text-align: center;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -328,10 +335,10 @@ img {
     }
 
     .nav-link::after {
-       display: none; /* Sembunyikan underline di mobile */
+       display: none;
     }
     
-    /* Animasi ikon hamburger menjadi 'X' (warna disesuaikan saat menu peach terbuka) */
+    /* Animasi ikon hamburger menjadi 'X' */
     .navbar.active .toggler-icon {
         background-color: transparent;
     }
@@ -345,13 +352,55 @@ img {
     }
 }
 
+/* RESPONSIVE DESIGN UNTUK MOBILE */
+@media (max-width: 768px) {
+    :root {
+        --navbar-height: 70px;
+    }
+    
+    .navbar {
+        height: var(--navbar-height);
+        padding: 0 10px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+        margin-left: -10px;
+    }
+    
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .footer {
+        padding: 3rem 0 1.5rem;
+    }
+    
+    .footer-brand {
+        font-size: 1.5rem;
+    }
+    
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .whatsapp-float svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 /* ================================== */
 /* STYLE POPUP              */
 /* ================================== */
 
 /* Class untuk mengunci scroll pada body saat popup aktif */
 .body-no-scroll {
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
 /* Lapisan latar belakang gelap */
@@ -360,7 +409,7 @@ img {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     display: none;
@@ -373,8 +422,8 @@ img {
 }
 
 .popup-overlay.active {
-    display: flex;
-    opacity: 1;
+    display: flex !important;
+    opacity: 1 !important;
 }
 
 /* Konten popup */
@@ -390,6 +439,8 @@ img {
     transition: transform 0.3s ease-in-out;
     border-top: 5px solid #007bff;
     margin: auto;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .popup-overlay.active .popup-content {
@@ -460,7 +511,9 @@ img {
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
+    font-family: inherit;
     transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
 }
 .form-group input:focus,
 .form-group textarea:focus {
@@ -535,6 +588,7 @@ img {
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
+    font-family: inherit;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(255, 185, 151, 0.4);
@@ -576,6 +630,7 @@ img {
     border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
+    font-family: inherit;
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -613,4 +668,68 @@ img {
 .iklan-link {
     display: block;
     line-height: 0;
+}
+
+/* RESPONSIVE UNTUK MOBILE POPUP */
+@media (max-width: 768px) {
+    .popup-overlay {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+    
+    .popup-content {
+        padding: 20px 20px;
+        max-height: 85vh;
+        margin-top: 0;
+    }
+    
+    .popup-header h3 {
+        font-size: 22px;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        padding: 10px 12px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .btn-submit-popup {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .popup-iklan-content {
+        max-width: 350px;
+    }
+    
+    .popup-close {
+        width: 28px;
+        height: 28px;
+        font-size: 24px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .popup-content {
+        padding: 15px;
+    }
+    
+    .popup-header {
+        margin-bottom: 20px;
+    }
+    
+    .popup-header h3 {
+        font-size: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .popup-iklan-content {
+        max-width: 300px;
+    }
 }
