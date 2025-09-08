@@ -1,0 +1,267 @@
+/* public/css/style-popup.css */
+
+/* Class untuk mengunci scroll pada body saat popup aktif */
+.body-no-scroll {
+    overflow: hidden;
+}
+
+/* Lapisan latar belakang gelap */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.popup-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Konten popup */
+.popup-content {
+    background-color: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+    border-top: 5px solid #007bff;
+    margin: auto;
+}
+
+.popup-overlay.active .popup-content {
+    transform: scale(1);
+}
+
+/* Header Popup */
+.popup-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.popup-header h3 {
+    margin: 0;
+    font-size: 26px;
+    color: #333;
+}
+.popup-header p {
+    margin: 5px 0 0;
+    color: #6c757d;
+}
+
+/* Tombol close (X) */
+.popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+    transition: color 0.2s, transform 0.2s;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.popup-close:hover {
+    color: #fff;
+    background-color: #dc3545;
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Grup Form */
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 15px;
+}
+
+/* Input fields dengan efek focus */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* STYLING UNTUK CUSTOM FILE INPUT */
+.file-upload-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden; 
+}
+.file-upload-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+.file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+    height: 100%; 
+    flex-shrink: 0; 
+}
+.file-upload-label svg {
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+.file-name-display {
+    padding: 10px 15px; 
+    font-size: 14px;
+    color: #6c757d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1; 
+}
+.form-group small {
+    color: #6c757d;
+    font-size: 13px;
+    margin-top: 8px;
+    display: block;
+}
+
+/* Tombol Kirim */
+.btn-submit-popup {
+    width: 100%;
+    padding: 14px;
+    background-color: #FFB997;
+    color: #402E32;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(255, 185, 151, 0.4);
+}
+.btn-submit-popup:hover {
+    background-color: #F9A479;
+    box-shadow: 0 6px 15px rgba(255, 185, 151, 0.6);
+}
+.btn-submit-popup:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(255, 185, 151, 0.6);
+}
+
+/* STYLING UNTUK POPUP SUKSES */
+.success-popup-content {
+    text-align: center;
+    border-top: 5px solid #28a745;
+    max-width: 400px;
+}
+.success-icon {
+    margin-bottom: 20px;
+}
+.success-popup-content h3 {
+    font-size: 24px;
+    color: #28a745;
+    margin: 0 0 10px;
+}
+.success-popup-content p {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+.btn-close-success {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.btn-close-success:hover {
+    background-color: #0056b3;
+}
+
+/* STYLING UNTUK POPUP IKLAN */
+.popup-iklan-content {
+    max-width: 400px;
+    padding: 0;
+    border-top: none;
+    background: none;
+    box-shadow: none;
+}
+.popup-iklan-content .popup-close {
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 5px;
+    top: 10px;
+    right: 10px;
+    transition: background-color 0.3s ease;
+}
+.popup-iklan-content .popup-close:hover {
+    background-color: #dc3545;
+}
+.popup-iklan-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    cursor: default;
+}
+.iklan-link {
+    display: block;
+    line-height: 0;
+}
