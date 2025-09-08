@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProgrammerPemula - Jasa Website & Aplikasi</title>
     
-    <link rel="stylesheet" href="{{ asset('css/style-global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style-popup.css') }}">
+    {{-- 
+      BAGIAN PENTING YANG DIUBAH: 
+      Memuat semua CSS dan JS utama melalui Vite. 
+      Ini menggantikan <link rel="stylesheet" ...> yang lama.
+      Pastikan Anda sudah membuat file resources/css/app.css dan meng-import
+      file style-global.css dan style-popup.css di dalamnya.
+    --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
+    {{-- Ini tetap dipertahankan untuk CSS yang spesifik per halaman --}}
     @stack('styles')
 </head>
 <body>
@@ -34,6 +41,11 @@
         </svg>
     </a>
 
+    {{-- 
+      JavaScript inline di sini tidak masalah. 
+      Namun, praktik terbaiknya adalah memindahkan semua logika ini ke dalam file 
+      resources/js/app.js dan hanya memanggil fungsi inisialisasi dari sini.
+    --}}
     <script>
     console.log('🚀 App script started');
     
@@ -235,6 +247,7 @@
     });
     </script>
     
+    {{-- Ini tetap dipertahankan untuk script yang spesifik per halaman --}}
     @stack('scripts')
 
 </body>
