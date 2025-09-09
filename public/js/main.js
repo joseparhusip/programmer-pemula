@@ -215,7 +215,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- 7. SCRIPT UNTUK LIGHTBOX PORTOFOLIO ---
-    // (Script ini bersifat spesifik untuk halaman home, jadi pastikan elemennya ada)
     const portfolioCards = document.querySelectorAll('.portfolio-card');
     const lightboxModal = document.getElementById('lightbox-modal');
     if (lightboxModal && portfolioCards.length > 0) {
@@ -243,6 +242,68 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', function(e) { 
             if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
                 closeLightbox();
+            }
+        });
+    }
+    
+    // --- 8. SCRIPT BARU UNTUK MODAL IFRAME SOSIAL MEDIA ---
+    const iframeModal = document.getElementById('iframe-modal');
+    if (iframeModal) {
+        const socialIframe = document.getElementById('social-iframe');
+        const iframeSpinner = iframeModal.querySelector('.iframe-spinner');
+        const openTriggers = document.querySelectorAll('.social-iframe-trigger');
+        const closeButton = iframeModal.querySelector('.iframe-modal-close');
+
+        // Fungsi untuk membuka modal
+        function openIframeModal(url) {
+            iframeSpinner.style.display = 'block'; // Tampilkan spinner
+            socialIframe.style.visibility = 'hidden'; // Sembunyikan iframe saat loading
+            socialIframe.src = url;
+            iframeModal.classList.add('active');
+            bodyElement.classList.add('body-no-scroll'); // Mencegah scroll di background
+
+            // Event listener saat iframe selesai loading
+            socialIframe.onload = function() {
+                iframeSpinner.style.display = 'none'; // Sembunyikan spinner
+                socialIframe.style.visibility = 'visible'; // Tampilkan iframe
+            };
+        }
+
+        // Fungsi untuk menutup modal
+        function closeIframeModal() {
+            iframeModal.classList.remove('active');
+            bodyElement.classList.remove('body-no-scroll');
+            // Hentikan loading dan kosongkan src untuk menghentikan video/audio
+            setTimeout(() => {
+                socialIframe.src = 'about:blank';
+            }, 300); // Sesuaikan dengan durasi transisi CSS
+        }
+
+        // Tambahkan event listener ke setiap tombol pemicu di footer
+        openTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function(event) {
+                event.preventDefault(); // Mencegah navigasi standar
+                const url = this.dataset.url;
+                if (url) {
+                    openIframeModal(url);
+                }
+            });
+        });
+
+        // Event listener untuk tombol close 'x'
+        closeButton.addEventListener('click', closeIframeModal);
+
+        // Event listener untuk menutup modal saat klik di luar area konten
+        iframeModal.addEventListener('click', function(event) {
+            if (event.target === iframeModal) {
+                closeIframeModal();
+            }
+        });
+
+        // Event listener untuk menutup modal dengan tombol 'Escape'
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && iframeModal.classList.contains('active')) {
+                closeIframeModal();
             }
         });
     }

@@ -110,14 +110,6 @@
         <h2 class="section-title"><b>Portofolio Terbaru Kami</b></h2>
         <p class="section-subtitle">Berikut beberapa proyek yang telah berhasil kami kerjakan untuk klien dari berbagai kalangan.</p>
         <div class="portfolio-grid">
-            <a href="{{ asset('assets/img/img-portfolio/img-website-carterlubi.png') }}" class="portfolio-card">
-                <span class="portfolio-category">Website</span>
-                <img src="{{ asset('assets/img/img-portfolio/img-website-carterlubi.png') }}" alt="Portfolio Website Carter Mobil Lubi" class="portfolio-image">
-                <div class="portfolio-overlay">
-                    <div><h3 class="portfolio-title">Website Carter Mobil</h3><p class="portfolio-tech">Laravel & Livewire</p></div>
-                    <div class="portfolio-view-icon">+</div>
-                </div>
-            </a>
             <a href="{{ asset('assets/img/img-portfolio/img-website-dashboard.png') }}" class="portfolio-card">
                 <span class="portfolio-category">Website</span>
                 <img src="{{ asset('assets/img/img-portfolio/img-website-dashboard.png') }}" alt="Portfolio Website Dashboard Admin" class="portfolio-image">
