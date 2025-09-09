@@ -600,10 +600,6 @@
     .contact-info {
         margin-bottom: 2rem;
     }
-    /* Aturan ini sudah sesuai dengan layout baru, jadi tidak perlu diubah lagi */
-    .detailed-service-card {
-        /* No change needed, already column */
-    }
 }
 
 /* Mobile (max-width: 768px) */
