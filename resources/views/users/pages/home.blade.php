@@ -12,7 +12,7 @@
             <div class="carousel-item active">
                 <img src="{{ asset('assets/img/img-home-1.png') }}" alt="Jasa Pembuatan Website Profesional">
                 <div class="carousel-caption">
-                    <h1 class="carousel-title">Jasa Pembuatan Website Profesional</h1>
+                    <h1 class="carousel-title"><b>Jasa Pembuatan Website Profesional</b></h1>
                     <p class="carousel-subtitle">Membangun website impian Anda dengan teknologi Laravel terkini. Cepat, aman, dan modern.</p>
                     <a href="#kontak" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1rem;">Hubungi Kami</a>
                 </div>
@@ -20,7 +20,7 @@
             <div class="carousel-item">
                 <img src="{{ asset('assets/img/img-home-2.png') }}" alt="Jasa Pembuatan Aplikasi Mobile">
                 <div class="carousel-caption">
-                    <h1 class="carousel-title">Pengembangan Aplikasi Mobile Flutter</h1>
+                    <h1 class="carousel-title"><b>Pengembangan Aplikasi Mobile Flutter</b></h1>
                     <p class="carousel-subtitle">Solusi aplikasi cross-platform untuk Android & iOS. Desain menawan, performa handal.</p>
                     <a href="#portofolio" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1rem;">Lihat Portofolio</a>
                 </div>
@@ -34,13 +34,13 @@
 
 <div class="container">
     <section id="layanan" class="services">
-        <h2 class="section-title">Layanan Unggulan Kami</h2>
+        <h2 class="section-title"><b>Layanan Unggulan Kami</b></h2>
         <p class="section-subtitle">Fokus kami adalah memberikan hasil terbaik menggunakan teknologi modern yang paling diminati saat ini.</p>
         <div class="services-grid">
             <div class="service-card">
                 <img src="{{ asset('assets/img/img-laravel.png') }}" alt="Jasa Website Laravel" class="service-card-image">
                 <h3 class="service-card-title">Jasa Website Laravel</h3>
-                <p class="service-card-description">Mengerjakan landing page, tugas kuliah, sistem informasi, e-commerce, dan website custom lainnya dengan framework Laravel.</p>
+                <p class="service-card-description">Mengerjakan landing page, sistem informasi, e-commerce, dan website custom lainnya dengan framework Laravel.</p>
             </div>
             <div class="service-card">
                 <img src="{{ asset('assets/img/img-flutter.png') }}" alt="Jasa Aplikasi Flutter" class="service-card-image">
@@ -51,7 +51,7 @@
     </section>
 
     <section class="why-us">
-        <h2 class="section-title">Mengapa Memilih Kami?</h2>
+        <h2 class="section-title"><b>Mengapa Memilih Kami?</b></h2>
         <p class="section-subtitle">Kami berkomitmen untuk memberikan solusi digital terbaik yang sesuai dengan kebutuhan dan anggaran Anda.</p>
         <div class="features-grid">
             <div class="feature-card">
@@ -73,32 +73,31 @@
     </section>
 
     <section class="detailed-services">
-        <h2 class="section-title">Kami Siap Membantu</h2>
+        <h2 class="section-title"><b>Kami Siap Membantu</b></h2>
         <p class="section-subtitle">Apapun kebutuhan digital Anda, kami memiliki solusi yang tepat, cepat, dan terjangkau.</p>
         <div class="detailed-services-grid">
             <div class="detailed-service-card">
-                <div class="detailed-service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5V4.5A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
-                <div>
-                    <h3 class="detailed-service-title">Joki Tugas & Proyek Kuliah</h3>
-                    <p class="detailed-service-description">Mengerjakan tugas web, tugas besar (TB), hingga proyek akhir (Skripsi/TA) mahasiswa dengan cepat dan rapi.</p>
+                <div class="detailed-service-icon">
+                    <img src="{{ asset('assets/icons/icons-website-perusahaan.png') }}" alt="Icon Website Perusahaan & Bisnis">
                 </div>
-            </div>
-            <div class="detailed-service-card">
-                <div class="detailed-service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></div>
                 <div>
                     <h3 class="detailed-service-title">Website Perusahaan & Bisnis</h3>
                     <p class="detailed-service-description">Membangun company profile, landing page, dan website profesional untuk meningkatkan citra dan jangkauan bisnis Anda.</p>
                 </div>
             </div>
             <div class="detailed-service-card">
-                <div class="detailed-service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
+                <div class="detailed-service-icon">
+                    <img src="{{ asset('assets/icons/icons-e-commerce.png') }}" alt="Icon Solusi Toko Online">
+                </div>
                 <div>
                     <h3 class="detailed-service-title">Solusi Toko Online</h3>
                     <p class="detailed-service-description">Membuat platform e-commerce yang fungsional, aman, dan mudah dikelola untuk mendorong pertumbuhan penjualan Anda.</p>
                 </div>
             </div>
             <div class="detailed-service-card">
-                <div class="detailed-service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+                <div class="detailed-service-icon">
+                    <img src="{{ asset('assets/icons/icons-web-custom.png') }}" alt="Icon Aplikasi Web Custom">
+                </div>
                 <div>
                     <h3 class="detailed-service-title">Aplikasi Web Custom</h3>
                     <p class="detailed-service-description">Mengembangkan sistem informasi, aplikasi manajemen, atau solusi web lainnya yang dirancang khusus untuk kebutuhan unik Anda.</p>
@@ -108,7 +107,7 @@
     </section>
 
     <section id="portofolio" class="portfolio">
-        <h2 class="section-title">Portofolio Terbaru Kami</h2>
+        <h2 class="section-title"><b>Portofolio Terbaru Kami</b></h2>
         <p class="section-subtitle">Berikut beberapa proyek yang telah berhasil kami kerjakan untuk klien dari berbagai kalangan.</p>
         <div class="portfolio-grid">
             <a href="{{ asset('assets/img/img-portfolio/img-website-carterlubi.png') }}" class="portfolio-card">
@@ -147,7 +146,7 @@
     </section>
 
     <section id="kontak" class="contact">
-        <h2 class="section-title">Hubungi Kami</h2>
+        <h2 class="section-title"><b>Hubungi Kami</b></h2>
         <p class="section-subtitle">Punya ide atau pertanyaan? Jangan ragu untuk mengirimkan pesan kepada kami. Kami siap membantu mewujudkan proyek digital Anda.</p>
         <div class="contact-grid">
             <div class="contact-info">
@@ -196,7 +195,7 @@
         </div>
     </section>
     <section class="tech-stack">
-        <h2 class="section-title">Teknologi Andalan Kami</h2>
+        <h2 class="section-title"><b>Teknologi Andalan Kami</b></h2>
         <div class="tech-scroller">
             <div class="tech-scroller-inner">
                 <img src="{{ asset('assets/img/img-laravel.png') }}" alt="Laravel" class="logo-unggulan">

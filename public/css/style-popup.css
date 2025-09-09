@@ -12,7 +12,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(10, 25, 47, 0.85); /* Warna navy gelap transparan */
     z-index: 1000;
     display: none;
     justify-content: center;
@@ -28,18 +28,19 @@
     opacity: 1;
 }
 
-/* Konten popup */
+/* [DIUBAH] Konten popup dengan tema gelap */
 .popup-content {
-    background-color: #fff;
+    background-color: #112240; /* Warna bg-light-navy */
+    color: #ccd6f6; /* Warna text-primary */
     padding: 25px 35px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     width: 100%;
     max-width: 550px;
     position: relative;
     transform: scale(0.95);
     transition: transform 0.3s ease-in-out;
-    border-top: 5px solid #007bff;
+    border-top: 5px solid #64ffda; /* Warna accent-cyan */
     margin: auto;
 }
 
@@ -47,7 +48,7 @@
     transform: scale(1);
 }
 
-/* Header Popup */
+/* [DIUBAH] Header Popup */
 .popup-header {
     text-align: center;
     margin-bottom: 25px;
@@ -55,25 +56,25 @@
 .popup-header h3 {
     margin: 0;
     font-size: 26px;
-    color: #333;
+    color: #ffffff; /* Putih terang untuk judul */
+    font-weight: 700; /* Bold untuk judul */
 }
 .popup-header p {
     margin: 5px 0 0;
-    color: #6c757d;
+    color: #8892b0; /* Warna text-secondary */
 }
 
-/* Tombol close (X) */
+/* [DIUBAH] Tombol close (X) */
 .popup-close {
     position: absolute;
     top: 15px;
     right: 15px;
     font-size: 28px;
-    color: #aaa;
+    color: #8892b0; /* Warna text-secondary */
     cursor: pointer;
     background: none;
     border: none;
     line-height: 1;
-    transition: color 0.2s, transform 0.2s;
     font-weight: bold;
     font-family: Arial, sans-serif;
     background-color: transparent;
@@ -86,12 +87,12 @@
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 .popup-close:hover {
-    color: #fff;
+    color: #ffffff;
     background-color: #dc3545;
     transform: rotate(90deg) scale(1.1);
 }
 
-/* Grup Form */
+/* [DIUBAH] Grup Form */
 .form-group {
     margin-bottom: 20px;
 }
@@ -99,25 +100,31 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #555;
+    color: #ccd6f6; /* Warna text-primary */
     font-size: 15px;
 }
 
-/* Input fields dengan efek focus */
+/* [DIUBAH] Input fields dengan tema gelap */
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #233554; /* Warna border lebih gelap */
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #0a192f; /* Warna bg-dark-navy */
+    color: #ccd6f6; /* Warna text-primary */
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #8892b0; /* Warna text-secondary untuk placeholder */
 }
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    border-color: #64ffda; /* Warna accent-cyan */
+    box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
 }
 
 .form-group textarea {
@@ -125,14 +132,15 @@
     min-height: 120px;
 }
 
-/* STYLING UNTUK CUSTOM FILE INPUT */
+/* [DIUBAH] STYLING UNTUK CUSTOM FILE INPUT */
 .file-upload-wrapper {
     position: relative;
     display: flex;
     align-items: center; 
-    border: 1px solid #ccc;
+    border: 1px solid #233554;
     border-radius: 8px;
     overflow: hidden; 
+    background-color: #0a192f;
 }
 .file-upload-input {
     position: absolute;
@@ -148,59 +156,63 @@
     display: inline-flex;
     align-items: center;
     padding: 10px 15px;
-    background-color: #f0f0f0;
-    border-right: 1px solid #ccc;
+    background-color: #112240;
+    border-right: 1px solid #233554;
     cursor: pointer;
     font-weight: 500;
     white-space: nowrap;
     height: 100%; 
     flex-shrink: 0; 
+    color: #ccd6f6;
 }
 .file-upload-label svg {
     margin-right: 8px;
     flex-shrink: 0;
+    stroke: #64ffda; /* Warna accent-cyan */
 }
 .file-name-display {
     padding: 10px 15px; 
     font-size: 14px;
-    color: #6c757d;
+    color: #8892b0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     flex-grow: 1; 
 }
 .form-group small {
-    color: #6c757d;
+    color: #8892b0;
     font-size: 13px;
     margin-top: 8px;
     display: block;
 }
 
-/* Tombol Kirim */
+/* [DIUBAH] Tombol Kirim */
 .btn-submit-popup {
     width: 100%;
     padding: 14px;
-    background-color: #FFB997;
-    color: #402E32;
+    background-color: #64ffda; /* Warna accent-cyan */
+    color: #0a192f; /* Warna bg-dark-navy */
     border: none;
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-    box-shadow: 0 4px 10px rgba(255, 185, 151, 0.4);
+    box-shadow: 0 4px 10px rgba(100, 255, 218, 0.2);
 }
 .btn-submit-popup:hover {
-    background-color: #F9A479;
-    box-shadow: 0 6px 15px rgba(255, 185, 151, 0.6);
+    background-color: #79ffee;
+    box-shadow: 0 6px 15px rgba(100, 255, 218, 0.3);
 }
 .btn-submit-popup:active {
     transform: scale(0.98);
-    box-shadow: 0 2px 5px rgba(255, 185, 151, 0.6);
+    box-shadow: 0 2px 5px rgba(100, 255, 218, 0.3);
 }
 
-/* STYLING UNTUK POPUP SUKSES */
+/* STYLING UNTUK POPUP SUKSES (TETAP TERANG AGAR MENCOLOK) */
 .success-popup-content {
+    background-color: #fff; /* Tetap putih agar kontras */
+    color: #333; /* Teks gelap */
     text-align: center;
     border-top: 5px solid #28a745;
     max-width: 400px;
@@ -232,36 +244,4 @@
 }
 .btn-close-success:hover {
     background-color: #0056b3;
-}
-
-/* STYLING UNTUK POPUP IKLAN */
-.popup-iklan-content {
-    max-width: 400px;
-    padding: 0;
-    border-top: none;
-    background: none;
-    box-shadow: none;
-}
-.popup-iklan-content .popup-close {
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    padding: 5px;
-    top: 10px;
-    right: 10px;
-    transition: background-color 0.3s ease;
-}
-.popup-iklan-content .popup-close:hover {
-    background-color: #dc3545;
-}
-.popup-iklan-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 12px;
-    cursor: default;
-}
-.iklan-link {
-    display: block;
-    line-height: 0;
 }
