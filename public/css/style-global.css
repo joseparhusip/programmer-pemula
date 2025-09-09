@@ -1,5 +1,5 @@
 /* === FONT DARI GOOGLE FONTS === */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* [DIHAPUS] Baris @import Google Fonts dipindahkan ke file app.blade.php untuk performa lebih baik */
 
 /* === CSS VARIABLES (TEMA PROGRAMMER BARU) === */
 :root {
@@ -24,8 +24,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    background-color: var(--bg-dark-navy); /* Latar belakang utama */
-    color: var(--text-primary);            /* Warna teks default untuk semua konten */
+    background-color: var(--bg-dark-navy);
+    color: var(--text-primary);
     overflow-x: hidden;
 }
 
@@ -93,6 +93,8 @@ img {
     justify-content: center;
     align-items: center;
     transition: opacity 0.75s ease, visibility 0.75s ease;
+    /* Optimasi: Memberi tahu browser properti ini akan berubah */
+    will-change: opacity, visibility;
 }
 
 #preloader.preloader-hidden {
@@ -207,24 +209,21 @@ img {
     bottom: -8px;
 }
 
-/* === CONTENT STYLING (BARU DITAMBAHKAN) === */
+/* === CONTENT STYLING === */
 main {
-    padding-top: var(--navbar-height); /* Memberi jarak agar konten tidak tertutup navbar */
+    padding-top: var(--navbar-height);
 }
 
-/* Atur warna default untuk semua heading di dalam konten */
 main h1, main h2, main h3, main h4, main h5, main h6 {
     color: var(--text-primary);
     margin-bottom: 1rem;
 }
 
-/* Atur warna default untuk paragraf agar sedikit lebih redup untuk hierarki visual */
 main p {
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
 }
 
-/* Atur warna untuk link di dalam konten agar menonjol */
 main a {
     color: var(--accent-cyan);
     text-decoration: none;
@@ -279,7 +278,6 @@ main a:hover {
     color: var(--text-secondary);
 }
 
-/* Sembunyikan item mobile di desktop */
 .nav-item-mobile-only {
     display: none;
 }
@@ -299,6 +297,8 @@ main a:hover {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     z-index: 998;
     transition: transform 0.3s ease;
+    /* Optimasi: Memberi tahu browser properti ini akan berubah */
+    will-change: transform;
 }
 
 .whatsapp-float:hover {
@@ -307,6 +307,16 @@ main a:hover {
 
 /* === RESPONSIVE NAVBAR (TABLET & MOBILE) === */
 @media (max-width: 992px) {
+    .btn-desktop-only {
+        display: none;
+    }
+
+    .nav-item-mobile-only {
+        display: list-item;
+        text-align: center;
+        width: 100%;
+    }
+
     .navbar .btn {
         padding: 0.6rem 1.4rem;
         font-size: 0.9rem;
@@ -333,6 +343,8 @@ main a:hover {
         transform: translateY(-10px);
         visibility: hidden;
         transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        /* Optimasi: Memberi tahu browser properti ini akan berubah */
+        will-change: opacity, transform, visibility;
     }
 
     .navbar.active .navbar-nav {

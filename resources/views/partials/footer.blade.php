@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="container">
-        <div class="footer-brand">ProgrammerPemula</div>
+        <div class="footer-brand">Joki Website</div>
         <p>Solusi cepat dan profesional untuk semua tugas website dan aplikasi Anda.</p>
         
         <ul class="footer-socials">
@@ -13,7 +13,7 @@
         </ul>
 
         <div class="footer-copy">
-            &copy; {{ date('Y') }} ProgrammerPemula. Dibuat dengan Penuh Semangat.
+            &copy; {{ date('Y') }} Joki Website. Dibuat dengan Penuh Semangat.
         </div>
     </div>
 </footer>

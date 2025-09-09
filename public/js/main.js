@@ -1,13 +1,18 @@
 // --- SCRIPT UTAMA UNTUK MENGELOLA SEMUA FUNGSI ---
+// File ini sudah dioptimalkan untuk produksi. Pastikan untuk mem-minify file ini sebelum diunggah ke hosting.
 
-// Menunggu hingga seluruh konten halaman (HTML) selesai dimuat
 document.addEventListener('DOMContentLoaded', function() {
     
-    // === DEKLARASI VARIABEL GLOBAL ===
+    // === DEKLARASI VARIABEL GLOBAL & KONFIGURASI ===
     const bodyElement = document.body;
     const navbar = document.querySelector('.navbar');
+    // [OPTIMASI] Gunakan const untuk nomor WA agar mudah diubah di satu tempat.
+    const NOMOR_WHATSAPP_TUJUAN = '6281292690095'; 
 
-    // === FUNGSI-FUNGSI GLOBAL UNTUK POPUP ===
+    // === FUNGSI-FUNGSI UTAMA UNTUK MODAL & POPUP ===
+    /**
+     * Menutup semua popup atau modal yang sedang aktif.
+     */
     function closeAllPopups() {
         document.querySelectorAll('.popup-overlay.active').forEach(popup => {
             popup.classList.remove('active');
@@ -15,13 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
         bodyElement.classList.remove('body-no-scroll');
     }
 
+    /**
+     * Membuka popup berdasarkan ID yang diberikan.
+     * @param {string} popupId - ID dari elemen popup yang ingin dibuka.
+     */
     function openPopupById(popupId) {
         const popup = document.getElementById(popupId);
         if (popup) {
             closeAllPopups(); // Tutup popup lain yang mungkin terbuka
             popup.classList.add('active');
             bodyElement.classList.add('body-no-scroll');
-            // Tutup navbar mobile jika sedang terbuka saat popup muncul
+            // Otomatis tutup navbar mobile jika sedang terbuka
             if (navbar && navbar.classList.contains('active')) {
                 navbar.classList.remove('active');
             }
@@ -33,33 +42,43 @@ document.addEventListener('DOMContentLoaded', function() {
     if (preloader) {
         window.addEventListener('load', () => {
             preloader.classList.add('preloader-hidden');
-            setTimeout(() => {
-                preloader.style.display = 'none';
-                // Tampilkan pop-up iklan setelah preloader hilang
+            
+            // Tampilkan popup iklan setelah 1.5 detik (memberi waktu pengguna melihat halaman)
+            const iklanPopupTimeout = setTimeout(() => {
                 openPopupById('iklanPopup');
-            }, 750); // Sesuaikan dengan durasi transisi di CSS
+            }, 1500);
+
+            // Hapus elemen preloader dari DOM setelah transisi selesai untuk membersihkan memori
+            preloader.addEventListener('transitionend', () => {
+                // [OPTIMASI] Menggunakan requestAnimationFrame memastikan DOM manipulation terjadi pada waktu yang paling efisien.
+                requestAnimationFrame(() => {
+                    if (preloader.parentNode) {
+                        preloader.parentNode.removeChild(preloader);
+                    }
+                });
+            }, { once: true }); // Opsi 'once' membuat event listener otomatis terhapus setelah dijalankan
         });
     }
 
-    // --- 2. SCRIPT UNTUK NAVBAR HAMBURGER ---
+    // --- 2. SCRIPT UNTUK NAVBAR HAMBURGER (MENU MOBILE) ---
     const navbarToggler = document.querySelector('.navbar-toggler');
-    const navLinks = document.querySelectorAll('.nav-link');
-
     if (navbarToggler && navbar) {
         navbarToggler.addEventListener('click', () => {
             navbar.classList.toggle('active');
         });
-    }
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (navbar && navbar.classList.contains('active')) {
-                navbar.classList.remove('active');
-            }
-        });
-    });
 
-    // --- 3. SCRIPT UNTUK CAROUSEL BAWAAN ---
+        // Menutup menu mobile jika salah satu link di dalamnya diklik
+        const navLinks = navbar.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navbar.classList.contains('active')) {
+                    navbar.classList.remove('active');
+                }
+            });
+        });
+    }
+
+    // --- 3. SCRIPT UNTUK CAROUSEL ---
     const carousel = document.querySelector('.carousel');
     if (carousel) {
         const inner = carousel.querySelector('.carousel-inner');
@@ -68,10 +87,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const nextBtn = carousel.querySelector('.carousel-control.next');
         const indicatorsContainer = carousel.querySelector('.carousel-indicators');
         
-        let currentIndex = 0;
         const totalItems = items.length;
-
         if (totalItems > 1) { 
+            let currentIndex = 0;
+            let autoPlayInterval;
+
+            // Inisialisasi indicator dots
             for (let i = 0; i < totalItems; i++) {
                 const dot = document.createElement('div');
                 dot.classList.add('indicator-dot');
@@ -82,67 +103,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 indicatorsContainer.appendChild(dot);
             }
-
             const indicators = indicatorsContainer.querySelectorAll('.indicator-dot');
 
-            function updateCarousel() {
+            const updateCarousel = () => {
                 inner.style.transform = `translateX(-${currentIndex * 100}%)`;
                 indicators.forEach((dot, index) => {
                     dot.classList.toggle('active', index === currentIndex);
                 });
-            }
+            };
 
-            function goToSlide(index) {
+            const goToSlide = (index) => {
                 currentIndex = index;
                 updateCarousel();
-            }
+            };
             
-            let autoPlayInterval = setInterval(() => {
-                currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
-                updateCarousel();
-            }, 5000); 
-
-            function resetAutoPlay() {
-                clearInterval(autoPlayInterval);
+            const startAutoPlay = () => {
                 autoPlayInterval = setInterval(() => {
-                    currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+                    currentIndex = (currentIndex + 1) % totalItems;
                     updateCarousel();
                 }, 5000);
-            }
+            };
+
+            const resetAutoPlay = () => {
+                clearInterval(autoPlayInterval);
+                startAutoPlay();
+            };
 
             prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
                 updateCarousel();
                 resetAutoPlay();
             });
 
             nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+                currentIndex = (currentIndex + 1) % totalItems;
                 updateCarousel();
                 resetAutoPlay();
             });
+            
+            startAutoPlay(); // Mulai autoplay saat halaman dimuat
         }
     }
     
-    // --- 4. SCRIPT UNTUK SEMUA POPUP (FORM, SUKSES, IKLAN) ---
-    // Event listener untuk tombol-tombol yang membuka popup form pemesanan
-    const openFormButtons = document.querySelectorAll('#btnPesanJasa, #btnPesanJasaMobile, .open-popup-btn');
-    openFormButtons.forEach(btn => {
-        btn.addEventListener('click', () => openPopupById('popupForm'));
+    // --- 4. EVENT LISTENERS UNTUK SEMUA POPUP (FORM, SUKSES, IKLAN) ---
+    document.querySelectorAll('#btnPesanJasa, #btnPesanJasaMobile').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openPopupById('popupForm');
+        });
     });
     
-    // Event listener untuk semua tombol close 'x' pada popup
     document.querySelectorAll('.popup-close').forEach(btn => {
         btn.addEventListener('click', closeAllPopups);
     });
 
-    // Event listener untuk tombol 'Tutup' pada popup sukses
     const closeSuccessBtn = document.getElementById('closeSuccessPopupBtn');
     if(closeSuccessBtn) {
         closeSuccessBtn.addEventListener('click', closeAllPopups);
     }
 
-    // Menutup popup jika mengklik area overlay di luarnya
     document.querySelectorAll('.popup-overlay').forEach(overlay => {
         overlay.addEventListener('click', (event) => {
             if (event.target === overlay) {
@@ -151,102 +170,91 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Menutup semua popup dengan tombol 'Escape'
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeAllPopups();
+        }
+    });
+
     // --- 5. SCRIPT UNTUK CUSTOM FILE INPUT ---
     const fileInput = document.getElementById('file_upload');
-    const fileNameDisplay = document.getElementById('file-name-display');
-
-    if (fileInput && fileNameDisplay) {
+    if (fileInput) {
+        const fileNameDisplay = document.getElementById('file-name-display');
         fileInput.addEventListener('change', function(event) {
-            const files = event.target.files;
-            if (files.length > 0) {
-                fileNameDisplay.textContent = files[0].name;
-            } else {
+            const file = event.target.files[0];
+            if (file && fileNameDisplay) {
+                fileNameDisplay.textContent = file.name;
+            } else if (fileNameDisplay) {
                 fileNameDisplay.textContent = 'Belum ada file dipilih.';
             }
         });
     }
     
-    // --- 6. SCRIPT UNTUK MENGIRIM FORM KE WHATSAPP ---
+    // --- 6. SCRIPT UNTUK FORM SUBMISSION KE WHATSAPP ---
     const orderForm = document.getElementById('whatsappOrderForm');
     if (orderForm) {
         orderForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Mencegah form melakukan submit standar
+            event.preventDefault();
 
-            // Nomor WhatsApp tujuan Anda
-            const nomorWhatsApp = '6281292690095';
-
-            // Ambil semua data dari form
             const nama = document.getElementById('nama').value;
             const noHp = document.getElementById('whatsapp').value;
             const detail = document.getElementById('detail').value;
             const designLink = document.getElementById('design_link').value;
-            const fileUpload = document.getElementById('file_upload').files;
+            const fileUpload = document.getElementById('file_upload').files[0];
 
-            // Format pesan untuk WhatsApp
-            let pesanWhatsApp = `Halo, saya ingin memesan jasa.\n\n`;
-            pesanWhatsApp += `*Nama Lengkap:* ${nama}\n`;
-            pesanWhatsApp += `*No. WhatsApp:* ${noHp}\n`;
-            pesanWhatsApp += `*Detail Project:*\n${detail}\n\n`;
+            let pesanWhatsApp = `Halo, saya ingin memesan jasa.\n\n*Nama Lengkap:*\n${nama}\n\n*No. WhatsApp:*\n${noHp}\n\n*Detail Project:*\n${detail}\n`;
             
             if (designLink) {
-                pesanWhatsApp += `*Link Desain:* ${designLink}\n`;
+                pesanWhatsApp += `\n*Link Desain:*\n${designLink}\n`;
             }
-
-            if (fileUpload.length > 0) {
-                pesanWhatsApp += `*File Terlampir:* ${fileUpload[0].name} (Akan dikirim manual via chat WhatsApp).\n`;
+            if (fileUpload) {
+                pesanWhatsApp += `\n*File Terlampir:*\n${fileUpload.name} (Akan dikirim manual via chat WhatsApp).\n`;
             }
             
-            // Buat URL WhatsApp
-            const urlWhatsApp = `https://wa.me/${nomorWhatsApp}?text=${encodeURIComponent(pesanWhatsApp)}`;
-
-            // Buka WhatsApp di tab baru
+            const urlWhatsApp = `https://wa.me/${NOMOR_WHATSAPP_TUJUAN}?text=${encodeURIComponent(pesanWhatsApp)}`;
             window.open(urlWhatsApp, '_blank');
             
-            // Tutup form pemesanan dan tampilkan popup sukses
             openPopupById('successPopup');
 
-            // Form tidak di-reset agar data tidak hilang jika pengguna ingin melihat kembali
-            // Jika ingin di-reset, hapus komentar pada baris di bawah ini:
-            // orderForm.reset();
-            // if(fileNameDisplay) {
-            //     fileNameDisplay.textContent = 'Belum ada file dipilih.';
-            // }
+            // Form tidak di-reset agar data tidak hilang jika pengguna ingin melihat kembali.
         });
     }
 
-    // --- 7. SCRIPT UNTUK LIGHTBOX PORTOFOLIO ---
+    // --- 7. SCRIPT UNTUK LIGHTBOX PORTOFOLIO (sudah efisien) ---
     const portfolioCards = document.querySelectorAll('.portfolio-card');
     const lightboxModal = document.getElementById('lightbox-modal');
     if (lightboxModal && portfolioCards.length > 0) {
         const lightboxImage = lightboxModal.querySelector('.lightbox-content');
         const lightboxClose = lightboxModal.querySelector('.lightbox-close');
         
+        const openLightbox = (imageUrl) => {
+            lightboxImage.setAttribute('src', imageUrl);
+            lightboxModal.classList.add('active');
+            bodyElement.classList.add('body-no-scroll');
+        };
+
+        const closeLightbox = () => {
+            lightboxModal.classList.remove('active');
+            bodyElement.classList.remove('body-no-scroll');
+            setTimeout(() => lightboxImage.setAttribute('src', ''), 300);
+        };
+
         portfolioCards.forEach(card => {
             card.addEventListener('click', function(e) {
                 e.preventDefault();
-                const imageUrl = this.getAttribute('href');
-                lightboxImage.setAttribute('src', imageUrl);
-                lightboxModal.classList.add('active');
+                openLightbox(this.getAttribute('href'));
             });
         });
 
-        function closeLightbox() {
-            lightboxModal.classList.remove('active');
-            setTimeout(() => { lightboxImage.setAttribute('src', ''); }, 300);
-        }
-
         lightboxClose.addEventListener('click', closeLightbox);
-        lightboxModal.addEventListener('click', function(e) { 
-            if (e.target === this) closeLightbox(); 
+        lightboxModal.addEventListener('click', (e) => { 
+            if (e.target === lightboxModal) closeLightbox(); 
         });
-        document.addEventListener('keydown', function(e) { 
-            if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
-                closeLightbox();
-            }
-        });
+        // Event listener 'Escape' sudah ditangani oleh fungsi global di bagian #4
     }
     
-    // --- 8. SCRIPT BARU UNTUK MODAL IFRAME SOSIAL MEDIA ---
+    // --- 8. SCRIPT UNTUK MODAL IFRAME SOSIAL MEDIA (sudah efisien) ---
     const iframeModal = document.getElementById('iframe-modal');
     if (iframeModal) {
         const socialIframe = document.getElementById('social-iframe');
@@ -254,57 +262,38 @@ document.addEventListener('DOMContentLoaded', function() {
         const openTriggers = document.querySelectorAll('.social-iframe-trigger');
         const closeButton = iframeModal.querySelector('.iframe-modal-close');
 
-        // Fungsi untuk membuka modal
-        function openIframeModal(url) {
-            iframeSpinner.style.display = 'block'; // Tampilkan spinner
-            socialIframe.style.visibility = 'hidden'; // Sembunyikan iframe saat loading
+        const openIframeModal = (url) => {
+            if (iframeSpinner) iframeSpinner.style.display = 'block';
+            socialIframe.style.visibility = 'hidden';
             socialIframe.src = url;
             iframeModal.classList.add('active');
-            bodyElement.classList.add('body-no-scroll'); // Mencegah scroll di background
+            bodyElement.classList.add('body-no-scroll');
+        };
 
-            // Event listener saat iframe selesai loading
-            socialIframe.onload = function() {
-                iframeSpinner.style.display = 'none'; // Sembunyikan spinner
-                socialIframe.style.visibility = 'visible'; // Tampilkan iframe
-            };
-        }
-
-        // Fungsi untuk menutup modal
-        function closeIframeModal() {
+        const closeIframeModal = () => {
             iframeModal.classList.remove('active');
             bodyElement.classList.remove('body-no-scroll');
-            // Hentikan loading dan kosongkan src untuk menghentikan video/audio
-            setTimeout(() => {
-                socialIframe.src = 'about:blank';
-            }, 300); // Sesuaikan dengan durasi transisi CSS
-        }
+            setTimeout(() => socialIframe.src = 'about:blank', 300);
+        };
 
-        // Tambahkan event listener ke setiap tombol pemicu di footer
+        socialIframe.onload = () => {
+            if (iframeSpinner) iframeSpinner.style.display = 'none';
+            socialIframe.style.visibility = 'visible';
+        };
+
         openTriggers.forEach(trigger => {
             trigger.addEventListener('click', function(event) {
-                event.preventDefault(); // Mencegah navigasi standar
+                event.preventDefault();
                 const url = this.dataset.url;
-                if (url) {
-                    openIframeModal(url);
-                }
+                if (url) openIframeModal(url);
             });
         });
 
-        // Event listener untuk tombol close 'x'
-        closeButton.addEventListener('click', closeIframeModal);
-
-        // Event listener untuk menutup modal saat klik di luar area konten
-        iframeModal.addEventListener('click', function(event) {
-            if (event.target === iframeModal) {
-                closeIframeModal();
-            }
+        if (closeButton) closeButton.addEventListener('click', closeIframeModal);
+        
+        iframeModal.addEventListener('click', (event) => {
+            if (event.target === iframeModal) closeIframeModal();
         });
-
-        // Event listener untuk menutup modal dengan tombol 'Escape'
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && iframeModal.classList.contains('active')) {
-                closeIframeModal();
-            }
-        });
+        // Event listener 'Escape' sudah ditangani oleh fungsi global di bagian #4
     }
 });

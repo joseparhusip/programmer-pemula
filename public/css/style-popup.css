@@ -1,18 +1,16 @@
 /* public/css/style-popup.css */
 
-/* Class untuk mengunci scroll pada body saat popup aktif */
 .body-no-scroll {
     overflow: hidden;
 }
 
-/* Lapisan latar belakang gelap */
 .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 25, 47, 0.85); /* Warna navy gelap transparan */
+    background-color: rgba(10, 25, 47, 0.85);
     z-index: 1000;
     display: none;
     justify-content: center;
@@ -21,6 +19,8 @@
     transition: opacity 0.3s ease-in-out;
     padding: 15px;
     overflow-y: auto;
+    /* Optimasi: Memberi tahu browser properti ini akan berubah */
+    will-change: opacity;
 }
 
 .popup-overlay.active {
@@ -28,10 +28,9 @@
     opacity: 1;
 }
 
-/* [DIUBAH] Konten popup dengan tema gelap */
 .popup-content {
-    background-color: #112240; /* Warna bg-light-navy */
-    color: #ccd6f6; /* Warna text-primary */
+    background-color: #112240;
+    color: #ccd6f6;
     padding: 25px 35px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -40,15 +39,16 @@
     position: relative;
     transform: scale(0.95);
     transition: transform 0.3s ease-in-out;
-    border-top: 5px solid #64ffda; /* Warna accent-cyan */
+    border-top: 5px solid #64ffda;
     margin: auto;
+    /* Optimasi: Memberi tahu browser properti ini akan berubah */
+    will-change: transform;
 }
 
 .popup-overlay.active .popup-content {
     transform: scale(1);
 }
 
-/* [DIUBAH] Header Popup */
 .popup-header {
     text-align: center;
     margin-bottom: 25px;
@@ -56,21 +56,20 @@
 .popup-header h3 {
     margin: 0;
     font-size: 26px;
-    color: #ffffff; /* Putih terang untuk judul */
-    font-weight: 700; /* Bold untuk judul */
+    color: #ffffff;
+    font-weight: 700;
 }
 .popup-header p {
     margin: 5px 0 0;
-    color: #8892b0; /* Warna text-secondary */
+    color: #8892b0;
 }
 
-/* [DIUBAH] Tombol close (X) */
 .popup-close {
     position: absolute;
     top: 15px;
     right: 15px;
     font-size: 28px;
-    color: #8892b0; /* Warna text-secondary */
+    color: #8892b0;
     cursor: pointer;
     background: none;
     border: none;
@@ -92,7 +91,6 @@
     transform: rotate(90deg) scale(1.1);
 }
 
-/* [DIUBAH] Grup Form */
 .form-group {
     margin-bottom: 20px;
 }
@@ -100,30 +98,29 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #ccd6f6; /* Warna text-primary */
+    color: #ccd6f6;
     font-size: 15px;
 }
 
-/* [DIUBAH] Input fields dengan tema gelap */
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #233554; /* Warna border lebih gelap */
+    border: 1px solid #233554;
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.2s, box-shadow 0.2s;
-    background-color: #0a192f; /* Warna bg-dark-navy */
-    color: #ccd6f6; /* Warna text-primary */
+    background-color: #0a192f;
+    color: #ccd6f6;
 }
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: #8892b0; /* Warna text-secondary untuk placeholder */
+    color: #8892b0;
 }
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #64ffda; /* Warna accent-cyan */
+    border-color: #64ffda;
     box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
 }
 
@@ -132,7 +129,6 @@
     min-height: 120px;
 }
 
-/* [DIUBAH] STYLING UNTUK CUSTOM FILE INPUT */
 .file-upload-wrapper {
     position: relative;
     display: flex;
@@ -168,7 +164,7 @@
 .file-upload-label svg {
     margin-right: 8px;
     flex-shrink: 0;
-    stroke: #64ffda; /* Warna accent-cyan */
+    stroke: #64ffda;
 }
 .file-name-display {
     padding: 10px 15px; 
@@ -186,12 +182,11 @@
     display: block;
 }
 
-/* [DIUBAH] Tombol Kirim */
 .btn-submit-popup {
     width: 100%;
     padding: 14px;
-    background-color: #64ffda; /* Warna accent-cyan */
-    color: #0a192f; /* Warna bg-dark-navy */
+    background-color: #64ffda;
+    color: #0a192f;
     border: none;
     border-radius: 8px;
     font-size: 18px;
@@ -209,10 +204,9 @@
     box-shadow: 0 2px 5px rgba(100, 255, 218, 0.3);
 }
 
-/* STYLING UNTUK POPUP SUKSES (TETAP TERANG AGAR MENCOLOK) */
 .success-popup-content {
-    background-color: #fff; /* Tetap putih agar kontras */
-    color: #333; /* Teks gelap */
+    background-color: #fff;
+    color: #333;
     text-align: center;
     border-top: 5px solid #28a745;
     max-width: 400px;

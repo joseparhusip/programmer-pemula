@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProgrammerPemula - Jasa Website & Aplikasi</title>
+
+    {{-- [OPTIMASI] Memindahkan Google Fonts dari CSS ke sini untuk loading non-blocking yang lebih cepat --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    {{-- CATATAN PRODUKSI: Pastikan semua file CSS ini sudah di-minify (diperkecil) --}}
     <link rel="stylesheet" href="{{ asset('css/style-global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style-popup.css') }}">
     
@@ -34,7 +40,7 @@
         </svg>
     </a>
 
-    {{-- Memanggil file JavaScript utama yang berisi semua logika --}}
+    {{-- CATATAN PRODUKSI: Pastikan file JS ini sudah di-minify dan digabung (jika ada lebih dari satu) --}}
     <script src="{{ asset('js/main.js') }}"></script>
     
     @stack('scripts')

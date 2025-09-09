@@ -42,6 +42,8 @@
     display: flex;
     height: 100%;
     transition: transform 0.5s ease-in-out;
+    /* Optimasi: Memberi tahu browser bahwa properti transform akan berubah */
+    will-change: transform;
 }
 .carousel-item {
     min-width: 100%;
@@ -131,6 +133,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Optimasi: Memberi tahu browser bahwa properti transform & box-shadow akan berubah */
+    will-change: transform, box-shadow;
 }
 
 .service-card:hover {
@@ -176,6 +180,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    /* Optimasi: Memberi tahu browser properti yang akan dianimasikan */
+    will-change: transform, box-shadow;
 }
 
 .feature-card:hover {
@@ -192,6 +198,7 @@
     width: 60px;
     height: 60px;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform;
 }
 
 .feature-card:hover .feature-icon img {
@@ -221,9 +228,9 @@
     padding: 2.5rem 2rem;
     border-radius: 15px;
     display: flex;
-    flex-direction: column;   /* Mengubah arah layout menjadi kolom (vertikal) */
-    align-items: center;      /* Konten menjadi terpusat secara horizontal */
-    text-align: center;       /* Teks menjadi terpusat */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 1rem;
     position: relative;
     overflow: hidden;
@@ -231,6 +238,7 @@
     background-color: var(--bg-light-navy);
     border: 1px solid #1d2d50;
     transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+    will-change: transform, box-shadow;
 }
 
 .detailed-service-card:hover {
@@ -240,16 +248,17 @@
 }
 
 .detailed-service-icon {
-    margin-bottom: 1rem; /* Menambah jarak antara ikon dan judul */
+    margin-bottom: 1rem;
     flex-shrink: 0;
     transition: transform 0.4s ease-out;
+    will-change: transform;
 }
 
 .detailed-service-card:hover .detailed-service-icon {
-     transform: scale(1.1); /* Efek hover pada ikon */
+     transform: scale(1.1);
 }
 
-.detailed-service-icon img { /* Aturan baru untuk ikon gambar */
+.detailed-service-icon img {
     width: 64px;
     height: 64px;
     object-fit: contain;
@@ -283,6 +292,7 @@
     position: relative;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    will-change: transform, box-shadow;
 }
 
 .portfolio-card:hover {
@@ -297,6 +307,7 @@
     object-position: top;
     display: block;
     transition: transform 0.4s ease;
+    will-change: transform;
 }
 
 .portfolio-card:hover .portfolio-image {
@@ -316,6 +327,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    will-change: transform, opacity;
 }
 
 .portfolio-card:hover .portfolio-overlay {
@@ -363,6 +375,7 @@
     font-weight: 300;
     transition: transform 0.3s ease;
     flex-shrink: 0;
+    will-change: transform;
 }
 
 .portfolio-card:hover .portfolio-view-icon {
@@ -402,6 +415,7 @@
     transform: scale(0.8);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: default;
+    will-change: transform;
 }
 
 .lightbox-overlay.active .lightbox-content {
@@ -535,6 +549,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 15px rgba(100, 255, 218, 0.1);
+    will-change: transform, background-color;
 }
 
 .btn-submit:hover {
@@ -564,6 +579,7 @@
     padding-block: 1rem;
     width: max-content;
     animation: scroll 40s linear infinite;
+    will-change: transform;
 }
 
 .tech-scroller-inner img {
@@ -572,6 +588,7 @@
     filter: grayscale(100%);
     opacity: 0.6;
     transition: all 0.3s ease;
+    will-change: filter, opacity, transform;
 }
 
 .tech-scroller-inner .logo-unggulan {
@@ -625,6 +642,12 @@
     .features-grid, .detailed-services-grid {
         gap: 1.5rem;
     }
+
+    /* === [SOLUSI] Mengubah tinggi gambar portofolio agar persegi panjang === */
+    .portfolio-image {
+        height: 200px; 
+    }
+    
     .tech-scroller-inner {
         gap: 3rem;
         animation-duration: 30s;
@@ -635,4 +658,34 @@
     .tech-scroller-inner .logo-unggulan {
         height: 70px;
     }
+}
+/* === NOTIFICATION STYLING [BARU] === */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bg-dark-navy);
+    background-color: var(--accent-cyan);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease, visibility 0.4s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    will-change: transform, opacity;
+}
+
+.notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.notification.error {
+    background-color: #e74c3c;
+    color: white;
 }

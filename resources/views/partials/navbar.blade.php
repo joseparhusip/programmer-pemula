@@ -1,6 +1,6 @@
 <header class="navbar">
     <div class="container">
-        <a href="/" class="navbar-brand">ProgrammerPemula</a>
+        <a href="/" class="navbar-brand">Joki Website</a>
         <nav class="navbar-menu">
             <ul class="navbar-nav">
                 <li><a href="/#beranda" class="nav-link">Beranda</a></li>
