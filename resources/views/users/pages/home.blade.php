@@ -211,21 +211,47 @@
     </section>
 
     {{-- ======================================================================= --}}
+    {{-- BAGIAN GAME ULAR (MOBILE FRIENDLY)                                    --}}
+    {{-- ======================================================================= --}}
+    <section id="games" class="games">
+        <h2 class="section-title"><b>Mainkan Game Ular Klasik</b></h2>
+        <p class="section-subtitle">Gunakan tombol panah di keyboard (desktop) atau tombol kontrol di layar (mobile).</p>
+        <div class="game-wrapper">
+            <div class="game-header">
+                <div class="game-score">SKOR: <span id="score-value">0</span></div>
+            </div>
+            <div class="canvas-container">
+                <canvas id="snake-canvas" width="400" height="400"></canvas>
+                <div id="game-overlay">
+                    <div id="game-over-text">GAME OVER</div>
+                    <button id="start-game-button">Mulai Game</button>
+                </div>
+            </div>
+            {{-- Tombol kontrol ini hanya akan muncul di perangkat mobile --}}
+            <div class="mobile-controls">
+                <button id="btn-up" class="control-btn" aria-label="Tombol Atas">▲</button>
+                <div class="controls-middle">
+                    <button id="btn-left" class="control-btn" aria-label="Tombol Kiri">◀</button>
+                    <button id="btn-right" class="control-btn" aria-label="Tombol Kanan">▶</button>
+                </div>
+                <button id="btn-down" class="control-btn" aria-label="Tombol Bawah">▼</button>
+            </div>
+        </div>
+    </section>
+
+    {{-- ======================================================================= --}}
     {{-- BAGIAN TEKNOLOGI                                                      --}}
     {{-- ======================================================================= --}}
     <section class="tech-stack">
         <h2 class="section-title"><b>Teknologi Andalan Kami</b></h2>
         <div class="tech-scroller">
             <div class="tech-scroller-inner">
-                {{-- Semua logo teknologi di-set lazy load untuk efisiensi --}}
                 <img src="{{ asset('assets/img/img-laravel.png') }}" alt="Laravel" class="logo-unggulan" loading="lazy" width="213" height="80">
                 <img src="{{ asset('assets/img/img-flutter.png') }}" alt="Flutter" class="logo-unggulan" loading="lazy" width="213" height="80">
                 <img src="{{ asset('assets/img/img-dart.png') }}" alt="Dart" class="logo-unggulan" loading="lazy" width="213" height="80">
                 <img src="{{ asset('assets/img/img-bootstraps.png') }}" alt="Bootstrap" loading="lazy" width="160" height="60">
                 <img src="{{ asset('assets/img/img-mysql.png') }}" alt="MySQL" loading="lazy" width="160" height="60">
                 <img src="{{ asset('assets/img/img-laragon.webp') }}" alt="Laragon" loading="lazy" width="160" height="60">
-                
-                {{-- Duplikasi untuk efek animasi seamless --}}
                 <img src="{{ asset('assets/img/img-laravel.png') }}" alt="Laravel" class="logo-unggulan" loading="lazy" width="213" height="80" aria-hidden="true">
                 <img src="{{ asset('assets/img/img-flutter.png') }}" alt="Flutter" class="logo-unggulan" loading="lazy" width="213" height="80" aria-hidden="true">
                 <img src="{{ asset('assets/img/img-dart.png') }}" alt="Dart" class="logo-unggulan" loading="lazy" width="213" height="80" aria-hidden="true">
@@ -247,25 +273,19 @@
 @endsection
 
 @push('scripts')
-{{-- CATATAN PRODUKSI: Pastikan file JavaScript ini juga di-minify dan diletakkan sebelum tag </body> untuk performa terbaik. --}}
 <script>
-// Menjalankan script setelah seluruh konten halaman (DOM) selesai dimuat
 document.addEventListener('DOMContentLoaded', function() {
     
-    // =================================================================
-    // Fungsionalitas Lightbox (Melihat Gambar Portofolio)
-    // =================================================================
+    // Fungsionalitas Lightbox
     const portfolioCards = document.querySelectorAll('.portfolio-card');
     const lightboxModal = document.getElementById('lightbox-modal');
-    
-    // Hanya jalankan jika elemen lightbox ada di halaman
     if (lightboxModal) {
         const lightboxImage = lightboxModal.querySelector('.lightbox-content');
         const lightboxClose = lightboxModal.querySelector('.lightbox-close');
         
         portfolioCards.forEach(card => {
             card.addEventListener('click', function(e) {
-                e.preventDefault(); // Mencegah link berpindah halaman
+                e.preventDefault();
                 const imageUrl = this.getAttribute('href');
                 lightboxImage.setAttribute('src', imageUrl);
                 lightboxModal.classList.add('active');
@@ -274,33 +294,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const closeModal = () => {
             lightboxModal.classList.remove('active');
-            // Menghapus src setelah transisi selesai agar tidak ada flash gambar lama saat dibuka lagi
             setTimeout(() => { lightboxImage.setAttribute('src', ''); }, 300);
         };
 
         lightboxClose.addEventListener('click', closeModal);
-        // Menutup modal jika klik di area luar gambar
-        lightboxModal.addEventListener('click', function(e) { 
-            if (e.target === this) closeModal(); 
-        });
-        // Menutup modal dengan tombol 'Escape' di keyboard
-        document.addEventListener('keydown', function(e) { 
-            if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
-                closeModal();
-            }
+        lightboxModal.addEventListener('click', (e) => { if (e.target === lightboxModal) closeModal(); });
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === 'Escape' && lightboxModal.classList.contains('active')) closeModal();
         });
     }
 
-    // =================================================================
-    // Fungsionalitas Form Kontak (Simpan ke Local Storage)
-    // =================================================================
+    // Fungsionalitas Form Kontak
     const contactForm = document.getElementById('main-contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Mencegah form me-reload halaman
-
+            e.preventDefault();
             const submitButton = this.querySelector('.btn-submit');
-            // Nonaktifkan tombol sementara untuk mencegah double-click
             submitButton.disabled = true;
             submitButton.textContent = 'Mengirim...';
 
@@ -316,41 +325,182 @@ document.addEventListener('DOMContentLoaded', function() {
                 let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
                 messages.push(messageData);
                 localStorage.setItem('contactMessages', JSON.stringify(messages));
-                
                 showNotification('Pesan Anda telah berhasil terkirim!', 'success');
-                this.reset(); // Kosongkan form setelah berhasil
-
+                this.reset();
             } catch (error) {
                 console.error('Gagal menyimpan pesan ke local storage:', error);
                 showNotification('Gagal mengirim pesan. Silakan coba lagi.', 'error');
             } finally {
-                // Aktifkan kembali tombol setelah proses selesai
                 submitButton.disabled = false;
                 submitButton.textContent = 'Kirim Pesan';
             }
         });
     }
 
-    // Fungsi untuk menampilkan notifikasi custom
+    // =================================================================
+    // Fungsionalitas Game Ular (Mobile Friendly)
+    // =================================================================
+    const canvas = document.getElementById('snake-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const scoreValue = document.getElementById('score-value');
+        const gameOverlay = document.getElementById('game-overlay');
+        const gameOverText = document.getElementById('game-over-text');
+        const startGameButton = document.getElementById('start-game-button');
+        
+        // Tombol kontrol mobile
+        const btnUp = document.getElementById('btn-up');
+        const btnDown = document.getElementById('btn-down');
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+        
+        const gridSize = 20;
+        let snake, food, score, direction, changingDirection, isGameOver, gameInterval;
+
+        function initializeGame() {
+            snake = [ {x: 10 * gridSize, y: 10 * gridSize} ];
+            score = 0;
+            direction = 'right';
+            changingDirection = false;
+            isGameOver = false;
+            scoreValue.textContent = score;
+
+            gameOverText.style.display = 'none';
+            startGameButton.textContent = 'Mulai Game';
+            gameOverlay.style.display = 'flex';
+            
+            generateFood();
+            clearCanvas(); // Membersihkan canvas di awal
+            draw(); // Menggambar kondisi awal
+        }
+
+        function startGame() {
+            if (gameInterval) clearInterval(gameInterval);
+            initializeGame();
+            gameOverlay.style.display = 'none';
+            gameInterval = setInterval(mainLoop, 100);
+        }
+
+        function mainLoop() {
+            if (isGameOver) {
+                gameOverText.style.display = 'block';
+                startGameButton.textContent = "Mulai Lagi";
+                gameOverlay.style.display = 'flex';
+                clearInterval(gameInterval);
+                return;
+            }
+
+            changingDirection = false;
+            clearCanvas();
+            drawFood();
+            moveSnake();
+            draw();
+            checkCollision();
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = 'var(--bg-dark-navy)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function draw() {
+            snake.forEach(part => {
+                ctx.fillStyle = 'var(--accent-cyan)';
+                ctx.strokeStyle = 'var(--bg-dark-navy)';
+                ctx.fillRect(part.x, part.y, gridSize, gridSize);
+                ctx.strokeRect(part.x, part.y, gridSize, gridSize);
+            });
+        }
+        
+        function drawFood() {
+            ctx.fillStyle = '#E74C3C';
+            ctx.strokeStyle = 'var(--bg-dark-navy)';
+            ctx.fillRect(food.x, food.y, gridSize, gridSize);
+            ctx.strokeRect(food.x, food.y, gridSize, gridSize);
+        }
+
+        function generateFood() {
+            food = {
+                x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+                y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+            };
+            snake.forEach(part => { if (part.x === food.x && part.y === food.y) generateFood(); });
+        }
+
+        function moveSnake() {
+            const head = {x: snake[0].x, y: snake[0].y};
+            if (direction === 'right') head.x += gridSize;
+            if (direction === 'left') head.x -= gridSize;
+            if (direction === 'up') head.y -= gridSize;
+            if (direction === 'down') head.y += gridSize;
+            snake.unshift(head);
+
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                scoreValue.textContent = score;
+                generateFood();
+            } else {
+                snake.pop();
+            }
+        }
+        
+        function setDirection(newDirection) {
+            if (changingDirection) return;
+            changingDirection = true;
+            
+            const goingUp = direction === 'up';
+            const goingDown = direction === 'down';
+            const goingRight = direction === 'right';
+            const goingLeft = direction === 'left';
+
+            if (newDirection === 'left' && !goingRight) direction = 'left';
+            if (newDirection === 'up' && !goingDown) direction = 'up';
+            if (newDirection === 'right' && !goingLeft) direction = 'right';
+            if (newDirection === 'down' && !goingUp) direction = 'down';
+        }
+
+        function handleKeyPress(event) {
+            switch (event.key) {
+                case 'ArrowLeft': setDirection('left'); break;
+                case 'ArrowUp': setDirection('up'); break;
+                case 'ArrowRight': setDirection('right'); break;
+                case 'ArrowDown': setDirection('down'); break;
+            }
+        }
+
+        function checkCollision() {
+            for (let i = 4; i < snake.length; i++) {
+                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) isGameOver = true;
+            }
+            const hitLeftWall = snake[0].x < 0;
+            const hitRightWall = snake[0].x >= canvas.width;
+            const hitTopWall = snake[0].y < 0;
+            const hitBottomWall = snake[0].y >= canvas.height;
+            if (hitLeftWall || hitRightWall || hitTopWall || hitBottomWall) isGameOver = true;
+        }
+
+        // Event Listeners
+        startGameButton.addEventListener('click', startGame);
+        document.addEventListener('keydown', handleKeyPress);
+        btnUp.addEventListener('click', () => setDirection('up'));
+        btnDown.addEventListener('click', () => setDirection('down'));
+        btnLeft.addEventListener('click', () => setDirection('left'));
+        btnRight.addEventListener('click', () => setDirection('right'));
+
+        // Inisialisasi tampilan awal game
+        initializeGame();
+    }
+    
+    // Fungsi notifikasi
     function showNotification(message, type) {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.textContent = message;
         document.body.appendChild(notification);
-
-        // Beri sedikit jeda sebelum memicu animasi agar transisi berjalan mulus
-        requestAnimationFrame(() => {
-            notification.classList.add('show');
-        });
-
+        requestAnimationFrame(() => notification.classList.add('show'));
         setTimeout(() => {
             notification.classList.remove('show');
-            // Hapus elemen dari DOM setelah animasi keluar selesai
-            notification.addEventListener('transitionend', () => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, { once: true });
+            notification.addEventListener('transitionend', () => notification.remove(), { once: true });
         }, 3000);
     }
 });

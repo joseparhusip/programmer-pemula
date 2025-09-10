@@ -4,7 +4,7 @@
 }
 
 /* Penyesuaian untuk section agar tidak terlalu rapat di mobile */
-.services, .why-us, .detailed-services, .portfolio, .contact, .tech-stack {
+.services, .why-us, .detailed-services, .portfolio, .contact, .games, .tech-stack {
     text-align: center;
     padding: 0 15px; /* Padding global dari .container */
     margin-top: 5rem;
@@ -42,7 +42,6 @@
     display: flex;
     height: 100%;
     transition: transform 0.5s ease-in-out;
-    /* Optimasi: Memberi tahu browser bahwa properti transform akan berubah */
     will-change: transform;
 }
 .carousel-item {
@@ -73,9 +72,9 @@
     line-height: 1.2;
 }
 .carousel-subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.3rem); /* Ukuran font diperbesar sedikit */
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
     margin-bottom: 2rem;
-    color: var(--text-primary); /* DIAKTUALISASI: Warna diubah menjadi putih terang */
+    color: var(--text-primary);
 }
 .carousel-control {
     position: absolute;
@@ -133,7 +132,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Optimasi: Memberi tahu browser bahwa properti transform & box-shadow akan berubah */
     will-change: transform, box-shadow;
 }
 
@@ -180,7 +178,6 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    /* Optimasi: Memberi tahu browser properti yang akan dianimasikan */
     will-change: transform, box-shadow;
 }
 
@@ -558,6 +555,128 @@
     box-shadow: 0 8px 20px rgba(100, 255, 218, 0.15);
 }
 
+/* === STYLING SECTION GAME ULAR (MOBILE FRIENDLY) === */
+.game-wrapper {
+    max-width: 480px;
+    margin: auto;
+    background-color: var(--bg-light-navy);
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.game-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 10px 10px;
+}
+
+.game-score {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.canvas-container {
+    position: relative;
+    width: 100%;
+    /* Menjaga rasio aspek 1:1 */
+    padding-top: 100%; 
+    height: 0;
+}
+
+#snake-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 10px;
+    background-color: var(--bg-dark-navy);
+}
+
+#game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 25, 47, 0.85);
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+#game-over-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #E74C3C;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+#start-game-button {
+    background-color: var(--accent-cyan);
+    color: var(--bg-dark-navy);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#start-game-button:hover {
+    background-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2);
+}
+
+/* KONTROL MOBILE */
+.mobile-controls {
+    display: none; /* Disembunyikan di desktop */
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.controls-middle {
+    display: flex;
+    gap: 5rem;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-cyan);
+    background-color: var(--bg-light-navy);
+    color: var(--accent-cyan);
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none; /* Mencegah seleksi teks saat disentuh */
+}
+
+.control-btn:active {
+    background-color: var(--accent-cyan);
+    color: var(--bg-dark-navy);
+}
+
+
 /* === STYLING TEKNOLOGI === */
 .tech-stack {
     margin-top: 7rem;
@@ -621,7 +740,7 @@
 
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
-    .services, .why-us, .detailed-services, .portfolio, .contact, .tech-stack {
+    .services, .why-us, .detailed-services, .portfolio, .contact, .games, .tech-stack {
         margin-top: 4rem;
     }
     
@@ -643,11 +762,15 @@
         gap: 1.5rem;
     }
 
-    /* === [SOLUSI] Mengubah tinggi gambar portofolio agar persegi panjang === */
     .portfolio-image {
         height: 200px; 
     }
     
+    /* Menampilkan tombol kontrol di mobile */
+    .mobile-controls {
+        display: flex;
+    }
+
     .tech-scroller-inner {
         gap: 3rem;
         animation-duration: 30s;
@@ -659,7 +782,7 @@
         height: 70px;
     }
 }
-/* === NOTIFICATION STYLING [BARU] === */
+/* === NOTIFICATION STYLING === */
 .notification {
     position: fixed;
     bottom: 20px;
